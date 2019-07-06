@@ -12,13 +12,14 @@ void QueueCreate(QueueHandle_t *QueueID,Queue_t *Queue,uint8_t *QueuePointer,UBa
 	#if cfg_use_queue==1
 		QueueID->value=0;
 		QueueID->CurrentValue=0;
+
 		for(index=0;index<TotalTask;index++)
 		{
 			QueueID->list[index]=NoTask;
 		}
-		QueueID->QPointer=Queue;/* QueeueID变量的Qpointer指针成员指向Queue变量 */
-
-		/* Queue_t数据类型的Queue变量的初始化 */	
+		
+		QueueID->QPointer=Queue;
+	
 		QueueID->QPointer->ItemNum=0;
 		QueueID->QPointer->ItemSize=ItemSize;
 		QueueID->QPointer->ItemLength=(ItemNum+1)*ItemSize;
