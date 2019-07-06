@@ -47,7 +47,7 @@ typedef enum {
 }TaskState_t;
 
 
-if cfg_use_queue==1
+#if cfg_use_queue==1
 	typedef struct{
 		UBaseType_t ItemNum;
 		UBaseType_t ItemSize;
