@@ -1,7 +1,7 @@
 #include <os_define.h>
 #include <os_list.h>
 
-#if CFG_USE_event!=0
+#if cfg_use_event!=0
 
 extern TaskHandle_t RunTaskHandle;
 extern tcb_t TaskList[TotalTask];
@@ -36,6 +36,8 @@ void OS_ResetState_WaitingEvent(EventHandle_t *EventID,UBase_t TaskID)
     TaskList[TaskID].yield=Nonstop;
     TaskList[TaskID].time=0;
     TaskList[TaskID].pointer=(void *)0;
+
+    OS_ListExti(EventID,TaskID);
 }
 
 
@@ -56,6 +58,7 @@ void OS_EventSet(EventHandle_t *EventID,UBase_t EventBit)
 {
     UBase_t index;
     UBase_t buffer[2];
+    int i;
     int EventWidth=sizeof(UBase_t)*8;
 
     for(index=0;index<TotalTask;index++)
@@ -78,7 +81,7 @@ void OS_EventSet(EventHandle_t *EventID,UBase_t EventBit)
             }
             else
             {                
-                for(int i=0;i<EventWidth;i++)
+                for(i=0;i<EventWidth;i++)
                 {
                     buffer[0]=TaskList[EventID->list[index]].buffer[0];
                     buffer[1]=TaskList[EventID->list[index]].buffer[1];
@@ -98,9 +101,9 @@ void OS_EventSet(EventHandle_t *EventID,UBase_t EventBit)
 }
 
 
-UBase_t EventGetBit(EventHandle_t *QueueID,TaskHandle_t TaskID)
+UBase_t EventGetBit(TaskHandle_t TaskID)
 {
     return TaskList[TaskID].buffer[2];
 }
 
-#endif /* #if CFG_USE_event!=0 */
+#endif /* #if cfg_use_event!=0 */

@@ -9,7 +9,7 @@ extern tcb_t TaskList[TotalTask];
 
 void QueueCreate(QueueHandle_t *QueueID,Queue_t *Queue,uint8_t *QueuePointer,UBase_t ItemNum,UBase_t ItemSize)
 {
-	UBase_t index;
+		UBase_t index;
 		QueueID->value=0;
 		QueueID->CurrentValue=0;
 

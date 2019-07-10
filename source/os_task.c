@@ -9,14 +9,14 @@ UBase_t TaskNum=0;
 
 extern void TickEnabled(void);
 
-#if CFG_USE_idletask!=0
+#if cfg_use_idletask!=0
 	extern void IdleTask(void);
 #endif
 
 TaskHandle_t OS_TaskCreate(function_t TaskName,UBase_t prio)
 {
 	TaskHandle_t buffer=TaskNum;
-	
+	int index；
 	if(TaskNum<TotalTask)
 	{
 		if(prio <= 0 || prio > UBase_max)
@@ -24,7 +24,7 @@ TaskHandle_t OS_TaskCreate(function_t TaskName,UBase_t prio)
 			return NoTask;
 		}
 
-        for(int index=0;index<TaskNum;index++)
+        for(index=0;index<TaskNum;index++)
 		{			  
 			if(TaskList[index].priority==prio)
 			{
@@ -41,11 +41,11 @@ TaskHandle_t OS_TaskCreate(function_t TaskName,UBase_t prio)
 		TaskList[TaskNum].time=0;
 		TaskList[TaskNum].pointer=(void *)0;
 
-		#if CFG_USE_event!=0
+		#if cfg_use_event!=0
 			TaskList[TaskNum].buffer[0]=0;
 			TaskList[TaskNum].buffer[1]=0;
 			TaskList[TaskNum].buffer[2]=0;
-		#endif /* CFG_USE_event */
+		#endif /* cfg_use_event */
 
 		TaskNum++;
 	}
@@ -116,9 +116,9 @@ void TaskScheduler(void)
 		}	
 		else
 		{
-			#if CFG_USE_idletask!=0	
+			#if cfg_use_idletask!=0	
 				IdleTask();
-			#endif /* CFG_USE_idletask */
+			#endif /* cfg_use_idletask */
 		}		 
 	}
 }
