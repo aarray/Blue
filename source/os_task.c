@@ -16,7 +16,7 @@ extern void TickEnabled(void);
 TaskHandle_t OS_TaskCreate(function_t TaskName,UBase_t prio)
 {
 	TaskHandle_t buffer=TaskNum;
-	int index；
+	int index;
 	if(TaskNum<TotalTask)
 	{
 		if(prio <= 0 || prio > UBase_max)
