@@ -1,16 +1,14 @@
 #include <os_define.h>
 #include <os_list.h>
 
+#if CFG_USE_event!=0
+
 extern TaskHandle_t RunTaskHandle;
 extern tcb_t TaskList[TotalTask];
 
 void EventCreate(EventHandle_t *EventID)
-{    
-    #if CFG_USE_event==0
-        #error "Set cfg_use_queue to 1 in the os_config.h file"
-    #endif /*CFG_USE_tcbbuffer */
-    
-    UBaseType_t index;
+{        
+    UBase_t index;
 
     for(index=0;index<TotalTask;index++)
     {
@@ -19,7 +17,7 @@ void EventCreate(EventHandle_t *EventID)
 }
 
 
-void OS_SetState_WaitingEvent(EventHandle_t *EventID,UBaseType_t TaskID,SubState_t substate,UBaseType_t TimeOut)
+void OS_SetState_WaitingEvent(EventHandle_t *EventID,UBase_t TaskID,SubState_t substate,UBase_t TimeOut)
 {
     TaskList[TaskID].state=waiting_event;
     TaskList[TaskID].SubState=substate;
@@ -31,7 +29,7 @@ void OS_SetState_WaitingEvent(EventHandle_t *EventID,UBaseType_t TaskID,SubState
 }
 
 
-void OS_ResetState_WaitingEvent(EventHandle_t *EventID,UBaseType_t TaskID)
+void OS_ResetState_WaitingEvent(EventHandle_t *EventID,UBase_t TaskID)
 {
     TaskList[TaskID].state=ready;
     TaskList[TaskID].SubState=NObject;
@@ -41,7 +39,7 @@ void OS_ResetState_WaitingEvent(EventHandle_t *EventID,UBaseType_t TaskID)
 }
 
 
-void OS_EventWait(EventHandle_t *EventID,UBaseType_t EventBit,UBaseType_t WaitBitAll,UBaseType_t TimeOut)
+void OS_EventWait(EventHandle_t *EventID,UBase_t EventBit,UBase_t WaitBitAll,UBase_t TimeOut)
 {
     TaskList[RunTaskHandle].buffer[0]=EventBit;
     if(WaitBitAll==TRUE)
@@ -54,11 +52,11 @@ void OS_EventWait(EventHandle_t *EventID,UBaseType_t EventBit,UBaseType_t WaitBi
     }   
 }
 
-void OS_EventSet(EventHandle_t *EventID,UBaseType_t EventBit)
+void OS_EventSet(EventHandle_t *EventID,UBase_t EventBit)
 {
-    UBaseType_t index;
-    UBaseType_t buffer[2];
-    int EventWidth=sizeof(UBaseType_t)*8;
+    UBase_t index;
+    UBase_t buffer[2];
+    int EventWidth=sizeof(UBase_t)*8;
 
     for(index=0;index<TotalTask;index++)
     {
@@ -100,8 +98,9 @@ void OS_EventSet(EventHandle_t *EventID,UBaseType_t EventBit)
 }
 
 
-UBaseType_t EventGetBit(EventHandle_t *QueueID,TaskHandle_t TaskID)
+UBase_t EventGetBit(EventHandle_t *QueueID,TaskHandle_t TaskID)
 {
     return TaskList[TaskID].buffer[2];
 }
 
+#endif /* #if CFG_USE_event!=0 */

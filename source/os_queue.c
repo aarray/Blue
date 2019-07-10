@@ -2,14 +2,14 @@
 #include <string.h>
 #include <os_list.h>
 
+#if cfg_use_queue!=0
+
 extern TaskHandle_t RunTaskHandle;
 extern tcb_t TaskList[TotalTask];
 
-
-void QueueCreate(QueueHandle_t *QueueID,Queue_t *Queue,uint8_t *QueuePointer,UBaseType_t ItemNum,UBaseType_t ItemSize)
+void QueueCreate(QueueHandle_t *QueueID,Queue_t *Queue,uint8_t *QueuePointer,UBase_t ItemNum,UBase_t ItemSize)
 {
-	UBaseType_t index;
-	#if cfg_use_queue==1
+	UBase_t index;
 		QueueID->value=0;
 		QueueID->CurrentValue=0;
 
@@ -24,13 +24,10 @@ void QueueCreate(QueueHandle_t *QueueID,Queue_t *Queue,uint8_t *QueuePointer,UBa
 		QueueID->QPointer->ItemSize=ItemSize;
 		QueueID->QPointer->ItemLength=(ItemNum+1)*ItemSize;
 		QueueID->QPointer->pointer=QueuePointer;
-	#else
-		#error "Set cfg_use_queue to 1 in the os_config.h file"
-	#endif /* cfg_use_queue */
  } 
  
 
-UBaseType_t OS_QueuePush(QueueHandle_t *QueueID,void *source)
+UBase_t OS_QueuePush(QueueHandle_t *QueueID,void *source)
 {
 	if( ( (QueueID->CurrentValue+QueueID->QPointer->ItemSize) % QueueID->QPointer->ItemLength ) == QueueID->value )
 	{
@@ -50,7 +47,7 @@ UBaseType_t OS_QueuePush(QueueHandle_t *QueueID,void *source)
 }
 
 
-UBaseType_t OS_QueuePop(QueueHandle_t *QueueID,void *target)
+UBase_t OS_QueuePop(QueueHandle_t *QueueID,void *target)
 {
 	if( QueueID->CurrentValue == QueueID->value)
 	{
@@ -69,7 +66,7 @@ UBaseType_t OS_QueuePop(QueueHandle_t *QueueID,void *target)
  } 
 
 
-void  OS_SetState_WaitingQueue(QueueHandle_t *QueueID,TaskHandle_t TaskID,SubState_t substate,UBaseType_t TimeOut)
+void  OS_SetState_WaitingQueue(QueueHandle_t *QueueID,TaskHandle_t TaskID,SubState_t substate,UBase_t TimeOut)
 {
 	TaskList[TaskID].state=waiting_queue;
 	TaskList[TaskID].SubState=substate;
@@ -92,19 +89,19 @@ void  OS_ResetState_WaitingQueue(QueueHandle_t *QueueID,TaskHandle_t TaskID)
 }
 
 
-UBaseType_t OS_QueueAvailableItem(QueueHandle_t *QueueID)
+UBase_t OS_QueueAvailableItem(QueueHandle_t *QueueID)
 {
 	return QueueID->QPointer->ItemNum;  
 }
 
 
 
-void OS_QueueSend(QueueHandle_t *QueueID,void *source,UBaseType_t TimeOut)
+void OS_QueueSend(QueueHandle_t *QueueID,void *source,UBase_t TimeOut)
 {
-	UBaseType_t boo;
-	UBaseType_t index;
-	UBaseType_t prio=0;
-	UBaseType_t buffer=NoTask;
+	UBase_t boo;
+	UBase_t index;
+	UBase_t prio=0;
+	UBase_t buffer=NoTask;
 
 	boo=OS_QueuePush(QueueID,source);
 
@@ -151,12 +148,12 @@ void OS_QueueSend(QueueHandle_t *QueueID,void *source,UBaseType_t TimeOut)
 } 
 	
 
-void OS_QueueReceive(QueueHandle_t *QueueID,void *target,UBaseType_t TimeOut)
+void OS_QueueReceive(QueueHandle_t *QueueID,void *target,UBase_t TimeOut)
 {
-	UBaseType_t boo;
-	UBaseType_t index;
-	UBaseType_t prio=0;
-	UBaseType_t buffer=NoTask;
+	UBase_t boo;
+	UBase_t index;
+	UBase_t prio=0;
+	UBase_t buffer=NoTask;
 
 	boo=OS_QueuePop(QueueID,target);
 
@@ -201,12 +198,12 @@ void OS_QueueReceive(QueueHandle_t *QueueID,void *target,UBaseType_t TimeOut)
 	
 }
 
-UBaseType_t QueueSendISR(QueueHandle_t *QueueID,void *source)
+UBase_t QueueSendISR(QueueHandle_t *QueueID,void *source)
 {
-	UBaseType_t boo;
-	UBaseType_t index;
-	UBaseType_t prio=0;
-	UBaseType_t buffer=NoTask;
+	UBase_t boo;
+	UBase_t index;
+	UBase_t prio=0;
+	UBase_t buffer=NoTask;
 
 	boo=OS_QueuePush(QueueID,source);
 
@@ -244,12 +241,12 @@ UBaseType_t QueueSendISR(QueueHandle_t *QueueID,void *source)
 }
 
 
-UBaseType_t QueueReceiveISR(QueueHandle_t *QueueID,void *target)
+UBase_t QueueReceiveISR(QueueHandle_t *QueueID,void *target)
 {
-	UBaseType_t boo;
-	UBaseType_t index;
-	UBaseType_t prio=0;
-	UBaseType_t buffer=TotalTask;
+	UBase_t boo;
+	UBase_t index;
+	UBase_t prio=0;
+	UBase_t buffer=TotalTask;
 
 	boo=OS_QueuePop(QueueID,target);
 	
@@ -286,3 +283,4 @@ UBaseType_t QueueReceiveISR(QueueHandle_t *QueueID,void *target)
 	}		
 }
 
+#endif /* cfg_use_queue!=0 */

@@ -1,21 +1,19 @@
 #include <os_define.h>
 #include <os_list.h>
 
+#if cfg_use_semaphore!=0
+
 extern TaskHandle_t RunTaskHandle;
 extern tcb_t TaskList[TotalTask];
 
 
 void SemaphoreCreateBinary(SemaphoreHandle_t *SemaphoreID)
 {
-    UBaseType_t index;
+    UBase_t index;
 
-    #if cfg_use_semaphore==1
-        SemaphoreID->value=1;
-        SemaphoreID->CurrentValue=0;
-    #else
-        #error "Set cfg_use_semaphore to 1 in the os_config.h file"
-    #endif/* cfg_use_semaphore */
-
+    SemaphoreID->value=1;
+    SemaphoreID->CurrentValue=0; 
+       
     for(index=0;index<TotalTask;index++)
     {
         SemaphoreID->list[index]=NoTask;
@@ -24,9 +22,9 @@ void SemaphoreCreateBinary(SemaphoreHandle_t *SemaphoreID)
 
 
 
-void SemaphoreCreateCounting(SemaphoreHandle_t *SemaphoreID,UBaseType_t MaxValue,UBaseType_t InitValue)
+void SemaphoreCreateCounting(SemaphoreHandle_t *SemaphoreID,UBase_t MaxValue,UBase_t InitValue)
 {
-    UBaseType_t index;
+    UBase_t index;
 
     #if cfg_use_semaphore==1
         SemaphoreID->value=MaxValue;
@@ -43,7 +41,7 @@ void SemaphoreCreateCounting(SemaphoreHandle_t *SemaphoreID,UBaseType_t MaxValue
 
 
 
-void OS_SetState_WaitingSemaphore(SemaphoreHandle_t *SemaphoreID,UBaseType_t TaskID,SubState_t substate,UBaseType_t TimeOut)
+void OS_SetState_WaitingSemaphore(SemaphoreHandle_t *SemaphoreID,UBase_t TaskID,SubState_t substate,UBase_t TimeOut)
 {
     TaskList[TaskID].state=waiting_semaphore;
 	TaskList[TaskID].SubState=substate;
@@ -56,7 +54,7 @@ void OS_SetState_WaitingSemaphore(SemaphoreHandle_t *SemaphoreID,UBaseType_t Tas
 
 
 
-void OS_ResetState_WaitingSemaphore(SemaphoreHandle_t *SemaphoreID,UBaseType_t TaskID)
+void OS_ResetState_WaitingSemaphore(SemaphoreHandle_t *SemaphoreID,UBase_t TaskID)
 {
     TaskList[TaskID].state=ready;
 	TaskList[TaskID].SubState=NObject;
@@ -67,7 +65,7 @@ void OS_ResetState_WaitingSemaphore(SemaphoreHandle_t *SemaphoreID,UBaseType_t T
 }
 
 
-void OS_SemaphoreTake(SemaphoreHandle_t *SemaphoreID,UBaseType_t TimeOut)
+void OS_SemaphoreTake(SemaphoreHandle_t *SemaphoreID,UBase_t TimeOut)
 {
     if(SemaphoreID->CurrentValue!=0)
     {
@@ -83,9 +81,9 @@ void OS_SemaphoreTake(SemaphoreHandle_t *SemaphoreID,UBaseType_t TimeOut)
 
 void OS_SemaphoreGive(SemaphoreHandle_t *SemaphoreID)
 {
-		UBaseType_t index;
-		UBaseType_t waken=NoTask;
-		UBaseType_t prio=0;
+		UBase_t index;
+		UBase_t waken=NoTask;
+		UBase_t prio=0;
     if(SemaphoreID->CurrentValue!=SemaphoreID->value)
     {
         SemaphoreID->CurrentValue++;
@@ -112,3 +110,5 @@ void OS_SemaphoreGive(SemaphoreHandle_t *SemaphoreID)
         }
     }
 }
+
+#endif/* cfg_use_semaphore!=0 */

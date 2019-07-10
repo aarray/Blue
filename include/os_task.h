@@ -3,11 +3,11 @@
 
 #include <os_define.h> 
 
-#define TaskEnter() UBaseType_t cont=TaskList[RunTaskHandle].context;switch(cont){ case 0:
-#define TaskExti()  TaskList[RunTaskHandle].state=deleted;RunTaskHandle=NoTask;return;}
+#define TaskEnter UBase_t cont=TaskList[RunTaskHandle].context;switch(cont){ case 0:
+#define TaskExti  TaskList[RunTaskHandle].state=deleted;RunTaskHandle=NoTask;return;}
 #define yield(num)  do{TaskList[RunTaskHandle].context=__LINE__+num;RunTaskHandle=NoTask;return;case (__LINE__+num):;}while(0)
 
-TaskHandle_t OS_TaskCreate(function_t TaskName,UBaseType_t prio);
+TaskHandle_t OS_TaskCreate(function_t TaskName,UBase_t prio);
 #define TaskCreate(TaskName,prio)       OS_TaskCreate(TaskName,prio)
 
 void OS_TaskDelete(TaskHandle_t TaskID);

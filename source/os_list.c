@@ -1,9 +1,9 @@
 #include <os_define.h>
 
 
-UBaseType_t OS_ListEnter(list_t *LISTID,TaskHandle_t TaskID )
+UBase_t OS_ListEnter(list_t *LISTID,TaskHandle_t TaskID )
 {
-	UBaseType_t index;
+	UBase_t index;
 
 	for (index=0;index<TotalTask;index++)
 	{
@@ -18,9 +18,9 @@ UBaseType_t OS_ListEnter(list_t *LISTID,TaskHandle_t TaskID )
 }
 
 
-UBaseType_t OS_ListExti(list_t *LISTID,TaskHandle_t TaskID)
+UBase_t OS_ListExti(list_t *LISTID,TaskHandle_t TaskID)
 {
-	UBaseType_t index;
+	UBase_t index;
 
 	for(index=0;index<TotalTask;index++)
 	{
@@ -35,9 +35,9 @@ UBaseType_t OS_ListExti(list_t *LISTID,TaskHandle_t TaskID)
 }
 
 
-UBaseType_t OS_ListFind(list_t *LISTID,TaskHandle_t TaskID)
+UBase_t OS_ListFind(list_t *LISTID,TaskHandle_t TaskID)
 {
-	UBaseType_t index;
+	UBase_t index;
 	for(index=0;index<TotalTask;index++)
 	{
 		if(LISTID->list[index]==TaskID)

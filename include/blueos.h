@@ -5,6 +5,6 @@
 
 extern TaskHandle_t RunTaskHandle;
 extern tcb_t TaskList[TotalTask];
-extern UBaseType_t TaskNum;
+extern UBase_t TaskNum;
 
 #endif /* _MYOS_H */

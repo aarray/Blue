@@ -5,21 +5,21 @@ TaskHandle_t RunTaskHandle=NoTask;
 
 tcb_t TaskList[TotalTask];
 
-UBaseType_t TaskNum=0;
+UBase_t TaskNum=0;
 
 extern void TickEnabled(void);
 
-#if CFG_USE_idletask==1
+#if CFG_USE_idletask!=0
 	extern void IdleTask(void);
 #endif
 
-TaskHandle_t OS_TaskCreate(function_t TaskName,UBaseType_t prio)
+TaskHandle_t OS_TaskCreate(function_t TaskName,UBase_t prio)
 {
 	TaskHandle_t buffer=TaskNum;
 	
 	if(TaskNum<TotalTask)
 	{
-		if(prio <= 0 || prio > UBaseType_max)
+		if(prio <= 0 || prio > UBase_max)
 		{
 			return NoTask;
 		}
@@ -41,7 +41,7 @@ TaskHandle_t OS_TaskCreate(function_t TaskName,UBaseType_t prio)
 		TaskList[TaskNum].time=0;
 		TaskList[TaskNum].pointer=(void *)0;
 
-		#if CFG_USE_event==1
+		#if CFG_USE_event!=0
 			TaskList[TaskNum].buffer[0]=0;
 			TaskList[TaskNum].buffer[1]=0;
 			TaskList[TaskNum].buffer[2]=0;
@@ -87,7 +87,7 @@ void OS_TaskResume(TaskHandle_t TaskID)
 void OS_FindTask(void)
 {
 	TaskHandle_t index;
-	UBaseType_t prio=0;
+	UBase_t prio=0;
 	
 	for(index=0;index<TotalTask;index++)
 	{
@@ -116,7 +116,7 @@ void TaskScheduler(void)
 		}	
 		else
 		{
-			#if CFG_USE_idletask==1	
+			#if CFG_USE_idletask!=0	
 				IdleTask();
 			#endif /* CFG_USE_idletask */
 		}		 

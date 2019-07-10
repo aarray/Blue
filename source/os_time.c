@@ -5,7 +5,7 @@ extern TaskHandle_t RunTaskHandle;
 extern tcb_t TaskList[TotalTask];
 
  
-void OS_TimeDelay(UBaseType_t TimeOut)
+void OS_TimeDelay(UBase_t TimeOut)
 {
 	TaskList[RunTaskHandle].state=waiting_time;
 	TaskList[RunTaskHandle].SubState=NObject;

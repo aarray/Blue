@@ -3,7 +3,7 @@
 
 #include <os_config.h>
 
-#define TaskHandle_t       UBaseType_t
+#define TaskHandle_t       UBase_t
 #define EventHandle_t      list_t
 #define SemaphoreHandle_t  list_t
 #define QueueHandle_t      list_t
@@ -47,24 +47,24 @@ typedef enum {
 }TaskState_t;
 
 
-#if cfg_use_queue==1
+#if cfg_use_queue!=0
 	typedef struct{
-		UBaseType_t ItemNum;
-		UBaseType_t ItemSize;
-		UBaseType_t ItemLength;
+		UBase_t ItemNum;
+		UBase_t ItemSize;
+		UBase_t ItemLength;
 		uint8_t *pointer;
 	}QList_t;
 #endif /* cfg_use_queue */
 
 
 typedef struct {
-		UBaseType_t list[TotalTask];
-	#if cfg_use_semaphore==1||cfg_use_queue==1		
-		UBaseType_t value;
-		UBaseType_t CurrentValue;
+		UBase_t list[TotalTask];
+	#if cfg_use_semaphore!=0||cfg_use_queue!=0		
+		UBase_t value;
+		UBase_t CurrentValue;
 	#endif /* cfg_use_semaphore||cfg_use_queue */
 
-	#if cfg_use_queue==1	
+	#if cfg_use_queue!=0	
 		QList_t *QPointer;
 	#endif/* cfg_use_queue */
 }list_t;
@@ -72,17 +72,17 @@ typedef struct {
 
 typedef struct{
 	function_t  task;
-	UBaseType_t priority;
-	UBaseType_t context;
+	UBase_t priority;
+	UBase_t context;
 	TaskState_t state;
 	TaskState_t CurrentState;
 	SubState_t  SubState;
-	UBaseType_t yield;
-	UBaseType_t time;
+	UBase_t yield;
+	UBase_t time;
 	list_t *pointer;
 
-	#if cfg_use_event==1
-		UBaseType_t buffer[3];
+	#if cfg_use_event!=0
+		UBase_t buffer[3];
 	#endif /* cfg_use_event */
 
 }tcb_t;
