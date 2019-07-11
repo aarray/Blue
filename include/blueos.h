@@ -1,5 +1,5 @@
-#ifndef _MYOS_H
-#define _MYOS_H
+#ifndef _BLUEOS_H
+#define _BLUEOS_H
 
 #include <os_define.h>
 
@@ -7,4 +7,4 @@ extern TaskHandle_t RunTaskHandle;
 extern tcb_t TaskList[TotalTask];
 extern UBase_t TaskNum;
 
-#endif /* _MYOS_H */
+#endif /* _BLUEOS_H */
