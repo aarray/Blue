@@ -1,5 +1,7 @@
 #include <os_define.h>
 
+#if HeapSize !=0
+
 uint8_t SysHeap[HeapSize];
 
 typedef struct{
@@ -23,3 +25,4 @@ void * os_malloc(UBase_t ByteSize)
     return Rpointer;
 } 
 
+#endif /* HeapSize !=0 */

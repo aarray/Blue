@@ -3,6 +3,8 @@
 
 #include <os_config.h>
 
+/***********************************************************/
+
 #define TaskHandle_t       UBase_t
 #define EventHandle_t      list_t
 #define SemaphoreHandle_t  list_t
@@ -10,6 +12,8 @@
 #define Queue_t			   QList_t
 
 #define NoTask             TotalTask
+
+/***********************************************************/
 
 typedef void (*function_t)(void);
 
@@ -72,7 +76,7 @@ typedef struct {
 
 typedef struct{
 	function_t  task;
-	UBase_t priority;
+	UBase_t priority;/* priority > 0 && priority < UBase_max */
 	UBase_t context;
 	TaskState_t state;
 	TaskState_t CurrentState;
@@ -86,6 +90,5 @@ typedef struct{
 	#endif /* cfg_use_event */
 
 }tcb_t;
-
 
 #endif /* OS_DEFINE_H */
