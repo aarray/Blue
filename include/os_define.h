@@ -56,7 +56,7 @@ typedef enum {
 		UBase_t ItemNum;
 		UBase_t ItemSize;
 		UBase_t ItemLength;
-		uint8_t *pointer;
+		unsigned char *pointer;
 	}QList_t;
 #endif /* cfg_use_queue */
 

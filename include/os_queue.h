@@ -3,7 +3,7 @@
 
 #include <os_define.h>
 
-void QueueCreate(QueueHandle_t *QueueID,Queue_t *Queue,uint8_t *QueuePointer,UBase_t ItemNum,UBase_t ItemSize);
+void QueueCreate(QueueHandle_t *QueueID,Queue_t *Queue,unsigned char *QueuePointer,UBase_t ItemNum,UBase_t ItemSize);
 
 UBase_t OS_QueueAvailableItem(QueueHandle_t *QueueID);
 #define QueueAvailableItem(QueueID) OS_QueueAvailableItem(QueueHandle_t *QueueID)

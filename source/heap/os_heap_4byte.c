@@ -2,7 +2,7 @@
 
 #if HeapSize !=0
 
-uint8_t SysHeap[HeapSize];
+unsigned char SysHeap[HeapSize];
 
 typedef struct{
     UBase_t num;

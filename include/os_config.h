@@ -1,9 +1,9 @@
 #ifndef OS_CONFIG_H 
 #define OS_CONFIG_H
 
-#include <stdint.h>
-
 /***************************************************/
+
+#include <stdint.h>
 
 #define UBase_t   uint32_t
 #define UBase_max UINT32_MAX
